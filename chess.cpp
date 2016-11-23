@@ -59,6 +59,17 @@ bool isValidMoveRook(int inCol, int inRow, int outCol, int outRow, char board[8]
         return false;
     }
 }
+
+bool isValidMoveKnight(int inCol, int inRow, int outCol, int outRow, char board[8][8]) {
+    int rowDiff = abs(outRow - inRow);
+    int colDiff = abs(outCol - inCol);
+    if((colDiff == 1 && rowDiff == 2) || (colDiff == 2 && rowDiff == 1)) {
+        return true;
+    }
+    return false;
+
+}
+
 bool isValidMoveBishop(int inCol, int inRow, int outCol, int outRow, char board[8][8]) {
     int rowDiff = outRow - inRow;
     int colDiff = outCol - inCol;
