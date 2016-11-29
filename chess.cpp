@@ -75,24 +75,64 @@ bool isValidMoveBishop(int inCol, int inRow, int outCol, int outRow, char board[
     int colDiff = outCol - inCol;
     if(abs(rowDiff) != abs(colDiff)) {
         return false;
+        if(colDiff > 0 && rowDiff > 0) {
+            for(int clp = inCol; clp <= outCol; clp++) {
+                for(int rlp = inRow; rlp <= outRow; rlp++) {
+                    if(board[rlp][clp] != '-') {
+                        return false;
+                    }
+                }
+            }
+        }
+        if(colDiff < 0 && rowDiff < 0) {
+            for(int clm = inCol; clm <= outCol; clm--) {
+                for(int rlm = inRow; rlm <= outRow; rlm--) {
+                    if(board[rlm][clm] != '-') {
+                        return false;
+                    }
+                }
+            }
+        }
+        if(colDiff > 0 && rowDiff < 0) {
+            for(int clp = inCol; clp <= outCol; clp++) {
+                for(int rlm = inRow; rlm <= outRow; rlm--) {
+                    if(board[rlm][clp] != '-') {
+                        return false;
+                    }
+                }
+            }
+        }
+        if(colDiff < 0 && rowDiff > 0) {
+            for(int clm = inCol; clm <= outCol; clm--) {
+                for(int rlm = inRow; rlm <= outRow; rlm++) {
+                    if(board[rlm][clm] != '-') {
+                        return false;
+                    }
+                }
+            }
+        }
     }
-    else {
-        for (int i = 0; i < count; ++i){
-            /* code */
-        }
-        for (int i = 0; i < count; ++i){
-            /* code */
-        }
-        for (int i = 0; i < count; ++i) {
-            /* code */
-        }
-        for (int i = 0; i < count; ++i){
-            /* code */
-        }
+    return true;
+}
 
-
-        return true;
+bool isValidMovePawn(int inCol, int inRow, int outCol, int outRow, char board[8][8]) {
+    if(isupper(board[inRow][inCol]) && inRow == 7) {
+        if(abs(inRow - outRow) != 2 || abs(inRow - outRow) != 1) {
+            return false;
+        }
+        else{
+            return true;
+        }
     }
+    else if(islower(board[inRow][inCol]) && inRow == 2) {
+        if(abs(inRow - outRow) != 2 || abs(inRow - outRow) != 1) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    else{return false;}
 }
 
 bool isValidMove(int inCol, int inRow, int outCol, int outRow, char board[8][8]) {
@@ -102,7 +142,17 @@ bool isValidMove(int inCol, int inRow, int outCol, int outRow, char board[8][8])
     else {
         if((board[inRow][inCol] == 'R' || board[inRow][inCol] == 'r') && isValidMoveRook(inCol, inRow, outCol, outRow, board)) {
         return true;
-        }   
+        }
+        if((board[inRow][inCol] == 'K' || board[inRow][inCol] == 'k') && isValidMoveKnight(inCol, inRow, outCol, outRow, board)) {
+        return true;
+        }
+        if((board[inRow][inCol] == 'B' || board[inRow][inCol] == 'b') && isValidMoveBishop(inCol, inRow, outCol, outRow, board)) {
+        return true;
+        }  
+        if((board[inRow][inCol] == 'P' || board[inRow][inCol] == 'p') && isValidMovePawn(inCol, inRow, outCol, outRow, board)) {
+        return true;
+        } 
+        return false;
     }
 }
 
