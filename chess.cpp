@@ -4,8 +4,12 @@
 #include <ctype.h>
 #include <cmath>
 #include <algorithm>
+#include <vector>
+#include "chess.h"
 
 using namespace std;
+
+vector<string> moves;
 
 char board[8][8] = {
 'R','N','B','Q','K','B','N','R',
@@ -117,7 +121,7 @@ bool isValidMoveBishop(int inCol, int inRow, int outCol, int outRow, char board[
 
 bool isValidMovePawn(int inCol, int inRow, int outCol, int outRow, char board[8][8]) {
     if(isupper(board[inRow][inCol]) && inRow == 7) {
-        if(abs(inRow - outRow) != 2 || abs(inRow - outRow) != 1) {
+        if(outRow - inRow != -2 || outRow - inRow != -1) {
             return false;
         }
         else{
@@ -125,17 +129,19 @@ bool isValidMovePawn(int inCol, int inRow, int outCol, int outRow, char board[8]
         }
     }
     else if(islower(board[inRow][inCol]) && inRow == 2) {
-        if(abs(inRow - outRow) != 2 || abs(inRow - outRow) != 1) {
+        if(inRow - outRow != 2 || inRow - outRow != 1) {
             return false;
         }
         else{
             return true;
         }
     }
-    else{return false;}
+    else{
+        return false;
+    }
 }
-
-bool isValidMove(int inCol, int inRow, int outCol, int outRow, char board[8][8]) {
+ 
+bool isValidMove(int inCol, int inRow, int outCol, int outRow,char board[8][8]) {
     if(board[inRow][inCol] == '-') {
         return false;
     }
@@ -180,6 +186,8 @@ void movePiece(char board[8][8]) {
         outCol = output[0] - 'a';
         outRow = 7 - (output[1] - '1');
     }
+    moves.push_back(input + " " + output);
+
     if(board[outRow][outCol] == '-') {
         swap(board, inRow, inCol, outRow, outCol);
     }
